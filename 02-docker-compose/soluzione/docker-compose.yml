@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  product-service:
+    build: ./product
+    volumes:
+      - ./product:/usr/src/app
+    ports:
+      - 5001:80
+  
+  database:
+    build: ./database
+    ports:
+      - 5432:5432
+  
+  website:
+    #image: php:apache
+    build: ./website
+    volumes:
+      - ./website:/var/www/html
+    ports:
+      - 5000:80
+    depends_on:
+      - product-service
+      - database
